@@ -1,0 +1,16 @@
+name: _
+publish_to: none
+
+environment:
+  sdk: '^3.11.0'
+
+workspace:
+  - logixportal_client
+  - logixportal_server
+  - logixportal_flutter
+
+dev_dependencies:
+  # ... (tus otras dev_dependencies)
+  flutter_lints: ^6.0.0
+  custom_lint: ^0.8.1      # Motor para plugins de linting
+  riverpod_lint: ^3.0.0    # Reglas específicas para Riverpod

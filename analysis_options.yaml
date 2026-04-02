@@ -1,0 +1,55 @@
+# logixportal_flutter/analysis_options.yaml
+# Incluye los lints recomendados por el equipo de Flutter
+include: package:flutter_lints/flutter.yaml
+analyzer:
+  # Activar plugins de análisis estático (esencial para Riverpod 3 y GoRouter)
+  plugins:
+    - custom_lint
+  # Excluir archivos generados para que el linter no los analice (ahorra CPU y quita warnings falsos)
+  exclude:
+    - "**/*.g.dart"              # Generados por json_serializable, riverpod_generator, etc.
+    - "**/*.freezed.dart"        # Generados por freezed
+    - "lib/src/generated/**"     # Clientes generados por Serverpod
+    - "lib/src/protocol/**"      # Si el protocolo de Serverpod se ubica aquí
+    - "test/.test_coverage.dart"
+    - "build/**"
+    - ".dart_tool/**"
+  # Tratamiento estricto: convierte problemas comunes de Riverpod/GoRouter en errores que impiden compilar
+  errors:
+    invalid_annotation_target: ignore           # Evita warnings molestos al usar Freezed con JSON serializable
+    unused_import: error                        # Mantiene tus imports limpios
+    always_use_package_imports: error           # Previene inconsistencias en GoRouter y dependencias circulares
+    avoid_print: warning                        # En producción, usar un Logger como 'logger' o 'talker'
+    missing_required_param: error               # Esencial para seguridad en navegación de GoRouter
+    missing_return: error                       # Vital para los reducers/builds de Riverpod
+linter:
+  rules:
+    # === Recomendado para Riverpod 3 y GoRouter ===
+    # Forzar imports absolutos (package:) evita que se creen múltiples instancias de proveedores Riverpod
+    always_use_package_imports: true
+    prefer_relative_imports: false
+    
+    # === Segurida de Estados ===
+    use_build_context_synchronously: true # Evita errores al usar GoRouter context.go() después de un await
+    
+    # === Preferencias de Construcción (Flutter) ===
+    prefer_const_constructors: true
+    prefer_const_constructors_in_immutables: true
+    prefer_const_declarations: true
+    prefer_const_literals_to_create_immutables: true
+    sized_box_for_whitespace: true
+    
+    # === Legibilidad y Mantenibilidad del GCGS_ERP ===
+    always_declare_return_types: true
+    avoid_dynamic_calls: true             # Riverpod depende mucho de tipos fuertes, 'dynamic' rompe esto
+    avoid_empty_else: true
+    cancel_subscriptions: true            # Muy importante si usas streams manuales
+    close_sinks: true
+    
+    # === Flujo de control ===
+    unnecessary_await_in_return: true
+    curly_braces_in_flow_control_structures: true
+    
+    # === Otros ===
+    require_trailing_commas: true         # Vital para que Git no muestre líneas enteras modificadas por formateo
+    avoid_function_literals_in_foreach_calls: true
